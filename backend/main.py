@@ -8,9 +8,11 @@ from Services.auth import authenticate_user, create_access_token
 from config import get_db, SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from datetime import timedelta
-# from .routers import auth, users, moods, entries, todos
+from datetime import date
+from Services.entry import create_entry,get_entries_by_date,get_entries_by_date_range
 
-# Create all database tables (in production, you would use migrations instead)
+from typing import List, Optional
+
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
@@ -21,6 +23,26 @@ app = FastAPI(
     docs_url="/api/docs",
     redoc_url="/api/redoc"
 )
+from pydantic import BaseModel, EmailStr
+
+class UserCreate(BaseModel):
+    username: str
+    email: EmailStr
+    password: str  
+class EntryCreate(BaseModel):
+    entry_date: date
+    notes: Optional[str] = None
+    mood_id: Optional[int] = None
+
+class EntryResponse(BaseModel):
+    id: int
+    user_id: int
+    entry_date: date
+    notes: Optional[str]
+    mood_id: Optional[int]
+
+    class Config:
+        orm_mode = True
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 @app.post("/token")
 def login_for_access_token(
@@ -39,12 +61,6 @@ def login_for_access_token(
         data={"sub": user.username}, expires_delta=access_token_expires
     )
     return {"access_token": access_token, "token_type": "bearer"}
-from pydantic import BaseModel, EmailStr
-
-class UserCreate(BaseModel):
-    username: str
-    email: EmailStr
-    password: str  
 
 @app.post("/users/register")
 def register_user(user: UserCreate, db: Session = Depends(get_db)):
@@ -58,4 +74,48 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
         username=user.username, 
         email=user.email, 
         password=user.password
+    )
+# Endpoints
+@app.post("/users/{user_id}/entries/", response_model=EntryResponse, status_code=status.HTTP_201_CREATED)
+def create_entry_endpoint(
+    user_id: int,
+    entry_data: EntryCreate,
+    db: Session = Depends(get_db)
+):
+    try:
+        return create_entry(
+            db=db,
+            user_id=user_id,
+            entry_date=entry_data.entry_date,
+            notes=entry_data.notes,
+            mood_id=entry_data.mood_id
+        )
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+@app.get("/users/{user_id}/entries/by-date/", response_model=List[EntryResponse])
+def get_entries_by_date_endpoint(
+    user_id: int,
+    target_date: date,
+    db: Session = Depends(get_db)
+):
+ 
+    return get_entries_by_date(
+        db=db,
+        user_id=user_id,
+        target_date=target_date
+    )
+
+@app.get("/users/{user_id}/entries/by-date-range/", response_model=List[EntryResponse])
+def get_entries_by_date_range_endpoint(
+    user_id: int,
+    start_date: date,
+    end_date: date,
+    db: Session = Depends(get_db)
+):
+    return get_entries_by_date_range(
+        db=db,
+        user_id=user_id,
+        start_date=start_date,
+        end_date=end_date
     )
