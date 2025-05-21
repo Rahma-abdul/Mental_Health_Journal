@@ -73,7 +73,7 @@ export default function Sidebar( {children}) {
 
       {/* Main Content */}
       <main className={`flex-1 transition-all duration-300 ${
-        isOpen ? 'ml-56' : 'ml-16'
+        isOpen ? 'ml-80' : 'ml-16'
       }`}>
         {children}
       </main>
