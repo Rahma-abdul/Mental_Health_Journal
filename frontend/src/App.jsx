@@ -5,9 +5,12 @@ import './App.css'
 import Login from './pages/Login.jsx'
 import Signup from './pages/Signup.jsx'
 import History from './pages/History.jsx'
-
+import Daily from './pages/Daily.jsx'
+import Todo from './pages/Todo.jsx'
+import Calender from './pages/Calender.jsx'
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 
 function App() {
   return (
@@ -21,6 +24,9 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/history" element={<History />} />
+          <Route path="/daily" element={<Daily/>} />
+          <Route path="/todo" element={<Todo />} />
+          <Route path="/calender" element={<Calender/>} />
         </Routes>
       </Router>
   );

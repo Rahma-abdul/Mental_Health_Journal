@@ -1,6 +1,7 @@
 import { useState } from "react";  
 import '../styles/History.css'; 
 import { useNavigate } from "react-router-dom";
+import Sidebar from "./Sidebar";
 
 
 function History() {
@@ -25,11 +26,14 @@ function History() {
     }
    ]
 
-    return (
-        <div className="title">
-            <h1>BLAH BLAH BLAH</h1>
-        </div>
-    );
+    // return (
+    //     <div className="title">
+    //         <h1>BLAH BLAH BLAH</h1>
+    //     </div>
+    // );
+    return <>
+    <Sidebar/>
+    </>
 }
 
 
