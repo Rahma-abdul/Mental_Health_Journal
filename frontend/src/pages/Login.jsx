@@ -23,7 +23,7 @@ function Login() {
         <div className="title">
             <h1>Mental Health Journal</h1>
             <div className="login-container">
-                <h2>Login To Your Journal</h2>
+                {/* <h2>Login To Your Journal</h2> */}
                 {/* {error && <p className="error">{error}</p>} */}
                 <form onSubmit={handleSubmit} className="login-form">
                     <div className="form-group">

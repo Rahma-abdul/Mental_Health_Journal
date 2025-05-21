@@ -26,14 +26,13 @@ function History() {
     }
    ]
 
-    // return (
-    //     <div className="title">
-    //         <h1>BLAH BLAH BLAH</h1>
-    //     </div>
-    // );
-    return <>
-    <Sidebar/>
-    </>
+    return (
+    <Sidebar>
+     <div className="title">
+        <h1>BLAH BLAH BLAH</h1>
+     </div>
+     </Sidebar>
+   );
 }
 
 
