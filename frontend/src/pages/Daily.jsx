@@ -48,7 +48,7 @@ export default function Daily() {
           ></textarea>
         </div>
 
-        {/* Mood Selector */}
+        {/* Mood Selector
         <div className="mb-4">
           <label
             htmlFor="mood"
@@ -65,11 +65,11 @@ export default function Daily() {
             <option value="">Select your mood</option>
             <option value="happy">😊 Happy</option>
             <option value="sad">😢 Sad</option>
-            <option value="anxious">😰 Anxious</option>
-            <option value="excited">🤩 Excited</option>
-            <option value="tired">😴 Tired</option>
+            <option value="anxious">😰 Neutral</option>
+            <option value="excited">🤩 Angry</option>
+            <option value="tired">😴 Emotional</option>
           </select>
-        </div>
+        </div> */}
       </div>
 
       <Sidebar />

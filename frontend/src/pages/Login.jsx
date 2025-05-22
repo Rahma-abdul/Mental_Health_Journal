@@ -1,6 +1,8 @@
 import { useState } from "react";  
 import '../styles/Login.css'; 
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -11,13 +13,39 @@ function Login() {
     const handleSubmit = (e) => {
         e.preventDefault();
         setError(null);
-
+        
         // Perform login logic here
         // Backend API call 
         console.log("Logging in....");
         navigate("/history");
 
     };
+//     const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     setError(null);
+
+//     const formData = new URLSearchParams();
+//     formData.append("username", email);     // or username if using that field
+//     formData.append("password", password);
+
+//     try {
+//         const response = await axios.post(
+//             "http://localhost:8000/token",
+//             formData,
+//             {
+//                 headers: {
+//                     "Content-Type": "application/x-www-form-urlencoded"
+//                 }
+//             }
+//         );
+
+//         localStorage.setItem("token", response.data.access_token);
+//         navigate("/history");
+
+//     } catch (error) {
+//         setError("Login failed: " + (error.response?.data?.detail || "Unknown error"));
+//     }
+// };
 
     return (
         <div className="title">

@@ -73,7 +73,7 @@ export default function Sidebar( {children}) {
               </NavLink>
             </li>
           </ul>
-           <button onClick={handleLogout} className="flex items-center bg-[#ffd4c6] p-2 mt-8 rounded-lg hover:bg-white/5 justify-center md:justify-start">
+           <button onClick={handleLogout} className="flex items-center  bg-[#ffd4c6] p-2 mt-8 rounded-lg hover:bg-white/5 justify-center md:justify-start">
             <LogOut className="w-5 h-5 text-gray-800" />
             <span className={`ms-3 text-gray-800 ${!isOpen && 'hidden'}`}>Logout</span>
           </button>
