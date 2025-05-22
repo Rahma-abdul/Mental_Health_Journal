@@ -25,6 +25,14 @@ app = FastAPI(
     docs_url="/api/docs",
     redoc_url="/api/redoc"
 )
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"], 
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 from pydantic import BaseModel, EmailStr
 
 class UserCreate(BaseModel):

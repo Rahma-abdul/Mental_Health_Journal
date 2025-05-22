@@ -1,25 +1,11 @@
 import React, { useState } from 'react';
 import { Clock, CalendarDays, ListTodo, Clipboard, ChevronRight, ChevronLeft, LogOut } from 'lucide-react';
-import { NavLink, useNavigate } from 'react-router-dom';
 
 export default function Sidebar( {children}) {
   const [isOpen, setIsOpen] = useState(true); 
   
-  const navigate = useNavigate();
-  // const handleLogout = () => {
-
-  //   navigate("/login");
-  // };
-
   return (
     <div className='flex min-h-screen transition-all duration-300'>
-      {/* Toggle Button on top-right */}
-      {/* <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="fixed top-4 right-4 z-50 p-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition"
-      >
-        {isOpen ? 'Close' : 'Menu'}
-      </button> */}
 
       {/* Sidebar */}
       {/* <aside
@@ -80,10 +66,6 @@ export default function Sidebar( {children}) {
               </NavLink>
             </li>
           </ul>
-           {/* <button onClick={handleLogout} className="flex items-center  bg-[#ffd4c6] p-2 mt-8 rounded-lg hover:bg-white/5 justify-center md:justify-start">
-            <LogOut className="w-5 h-5 text-gray-800" />
-            <span className={`ms-3 text-gray-800 ${!isOpen && 'hidden'}`}>Logout</span>
-          </button>  */}
 
         </div>
       </aside>
