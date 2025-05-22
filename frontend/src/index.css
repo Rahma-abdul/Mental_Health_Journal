@@ -30,9 +30,12 @@ body {
   margin: 0;
   display: flex;
   place-items: center;
-  min-width: 320px;
+  /* min-width: 200vh; */
+  width: fit-content;
+  min-width: 100%;
   min-height: 100vh; 
     background: linear-gradient(to bottom, #ff4d6d, #ff9a44);
+    background-attachment: fixed;
     font-family: 'Times New Roman', Times, serif;
 }
 

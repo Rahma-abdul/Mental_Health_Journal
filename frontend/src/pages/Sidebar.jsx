@@ -68,7 +68,7 @@ export default function Sidebar( {children}) {
               </NavLink>
             </li>
             <li>
-              <NavLink to='/calender' className="flex items-center p-2 rounded-lg hover:bg-white/5 group justify-center md:justify-start">
+              <NavLink to='/calendar' className="flex items-center p-2 rounded-lg hover:bg-white/5 group justify-center md:justify-start">
                 <CalendarDays className='w-5 h-5 text-gray-800'/> 
                 <span className={`flex-1 ms-3 whitespace-nowrap text-gray-800 ${!isOpen && 'hidden'}`}>Calendar</span> 
               </NavLink>

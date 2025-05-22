@@ -1,0 +1,66 @@
+h1 {
+    text-align:left;
+    /* justify-content: left; */
+    font-family: 'Times New Roman', Times, serif;
+    color: white;
+    font-size: 2.5rem;
+    /* margin-left: -100px; */
+    padding-bottom: 10px;
+    /* padding-left: 20px; */
+}
+
+.table{
+    display: flex;
+    flex-direction: column;
+    gap: 4px; /* space between rows */
+    padding: 10px;
+    max-width: fit-content;
+    margin: 0 auto;
+}
+
+.grid{
+    display: flex;
+    gap: 4px
+}
+
+.cell{
+    width: 30px;
+    height: 30px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    transition: background-color 0.2s ease;
+}
+
+/* .cell:hover{
+    background-color: #cce7ff;
+    cursor: pointer;
+} */
+
+
+.header{
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.space{
+    width: 40px;
+}
+
+.days{
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    text-align: center;
+    color: white;
+}
+
+
+.label{
+    width: 40px;
+    font-size: 12px;
+    text-align: right;
+    margin-right: 4px;
+    color: white;
+}
