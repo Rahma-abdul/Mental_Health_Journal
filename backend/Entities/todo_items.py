@@ -11,6 +11,8 @@ class TodoItem(Base):
     entry_id = Column(Integer, ForeignKey("entries.id"))
     description = Column(Text, nullable=False)
     is_completed = Column(Boolean, default=False)
+    priority = Column(Integer, default=1)  
+    deadline = Column(DateTime)
 
 
     # Relationships will be setup in relationships.py

@@ -11,6 +11,8 @@ from datetime import timedelta
 from datetime import date
 from Services.entry import create_entry,get_entries_by_date,get_entries_by_date_range
 from Services.mood import get_user_mood_history
+from Services.song_recommendation import SongRecommendationService
+
 from typing import List, Optional,Dict
 
 Base.metadata.create_all(bind=engine)
@@ -42,8 +44,7 @@ class EntryResponse(BaseModel):
     mood_id: Optional[int]
 
     class Config:
-        # orm_mode = True
-        from_attributes = True     
+        orm_mode = True
 
 class MoodHistoryResponse(BaseModel):
     date: date
@@ -52,6 +53,8 @@ class MoodHistoryResponse(BaseModel):
     color: str   
     class Config:
         from_attributes = True     
+
+
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 @app.post("/token")
 def login_for_access_token(
@@ -84,6 +87,7 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
         email=user.email, 
         password=user.password
     )
+
 # Endpoints
 @app.post("/users/{user_id}/entries/", response_model=EntryResponse, status_code=status.HTTP_201_CREATED)
 def create_entry_endpoint(
@@ -128,6 +132,7 @@ def get_entries_by_date_range_endpoint(
         start_date=start_date,
         end_date=end_date
     )
+    
 @app.get("/history/{user_id}/{year}", response_model=Dict[int, List[MoodHistoryResponse]])
 async def get_mood_history(
     user_id: int,
@@ -145,3 +150,81 @@ async def get_mood_history(
         return history
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+
+class SongRecommendationResponse(BaseModel):
+    song_recommendation: Optional[str]
+    entry_id: int
+    success: bool
+    message: Optional[str] = None
+
+class MoodSongRequest(BaseModel):
+    mood_name: str
+
+@app.get("/users/{user_id}/entries/{entry_id}/song-recommendation", response_model=SongRecommendationResponse)
+def get_song_recommendation_for_entry(
+    user_id: int,
+    entry_id: int,
+    db: Session = Depends(get_db)
+):
+    """
+    Get a song recommendation based on a specific journal entry and its mood.
+    """
+    song_service = SongRecommendationService()
+    
+    try:
+        recommendation = song_service.get_song_recommendation(db, entry_id, user_id)
+        
+        if recommendation:
+            return SongRecommendationResponse(
+                song_recommendation=recommendation,
+                entry_id=entry_id,
+                success=True,
+                message="Song recommendation generated successfully"
+            )
+        else:
+            return SongRecommendationResponse(
+                song_recommendation=None,
+                entry_id=entry_id,
+                success=False,
+                message="Could not generate song recommendation or entry not found"
+            )
+    
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Error generating song recommendation: {str(e)}"
+        )
+
+@app.post("/song-recommendation/by-mood", response_model=dict)
+def get_song_recommendation_by_mood(
+    mood_request: MoodSongRequest
+):
+    """
+    Get a song recommendation based only on mood name.
+    """
+    song_service = SongRecommendationService()
+    
+    try:
+        recommendation = song_service.get_song_recommendation_by_mood_only(mood_request.mood_name)
+        
+        if recommendation:
+            return {
+                "song_recommendation": recommendation,
+                "mood": mood_request.mood_name,
+                "success": True,
+                "message": "Song recommendation generated successfully"
+            }
+        else:
+            return {
+                "song_recommendation": None,
+                "mood": mood_request.mood_name,
+                "success": False,
+                "message": "Could not generate song recommendation"
+            }
+    
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Error generating song recommendation: {str(e)}"
+        )

@@ -4,11 +4,12 @@ import { NavLink, useNavigate } from 'react-router-dom';
 
 export default function Sidebar( {children}) {
   const [isOpen, setIsOpen] = useState(true); 
- const navigate = useNavigate();
-  const handleLogout = () => {
+  
+  const navigate = useNavigate();
+  // const handleLogout = () => {
 
-    navigate("/login");
-  };
+  //   navigate("/login");
+  // };
 
   return (
     <div className='flex min-h-screen transition-all duration-300'>
@@ -72,11 +73,18 @@ export default function Sidebar( {children}) {
                 <span className={`flex-1 ms-3 whitespace-nowrap text-gray-800 ${!isOpen && 'hidden'}`}>Calendar</span> 
               </NavLink>
             </li>
+            <li>
+              <NavLink to='/logout' className="flex items-center p-2 rounded-lg hover:bg-white/5 group justify-center md:justify-start">
+                <LogOut className='w-5 h-5 text-gray-800'/> 
+                <span className={`flex-1 ms-3 whitespace-nowrap text-gray-800 ${!isOpen && 'hidden'}`}>Logout</span> 
+              </NavLink>
+            </li>
           </ul>
-           <button onClick={handleLogout} className="flex items-center  bg-[#ffd4c6] p-2 mt-8 rounded-lg hover:bg-white/5 justify-center md:justify-start">
+           {/* <button onClick={handleLogout} className="flex items-center  bg-[#ffd4c6] p-2 mt-8 rounded-lg hover:bg-white/5 justify-center md:justify-start">
             <LogOut className="w-5 h-5 text-gray-800" />
             <span className={`ms-3 text-gray-800 ${!isOpen && 'hidden'}`}>Logout</span>
-          </button>
+          </button>  */}
+
         </div>
       </aside>
 
