@@ -27,6 +27,7 @@ function App() {
           <Route path="/daily" element={<Daily/>} />
           <Route path="/todo" element={<Todo />} />
           <Route path="/calender" element={<Calender/>} />
+          <Route path="/logout" element={<Login />} />
         </Routes>
       </Router>
   );
