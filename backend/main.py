@@ -10,8 +10,8 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from datetime import timedelta
 from datetime import date
 from Services.entry import create_entry,get_entries_by_date,get_entries_by_date_range
-
-from typing import List, Optional
+from Services.mood import get_user_mood_history
+from typing import List, Optional,Dict
 
 Base.metadata.create_all(bind=engine)
 
@@ -42,7 +42,16 @@ class EntryResponse(BaseModel):
     mood_id: Optional[int]
 
     class Config:
-        orm_mode = True
+        # orm_mode = True
+        from_attributes = True     
+
+class MoodHistoryResponse(BaseModel):
+    date: date
+    # mood_id: int
+    # mood_name: str
+    color: str   
+    class Config:
+        from_attributes = True     
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 @app.post("/token")
 def login_for_access_token(
@@ -119,3 +128,20 @@ def get_entries_by_date_range_endpoint(
         start_date=start_date,
         end_date=end_date
     )
+@app.get("/history/{user_id}/{year}", response_model=Dict[int, List[MoodHistoryResponse]])
+async def get_mood_history(
+    user_id: int,
+    year: int,
+    db: Session = Depends(get_db)
+):
+    """
+    Get a user's mood history organized by month for a specific year
+    
+    - **user_id**: ID of the user
+    - **year**: Year to analyze (e.g., 2023)
+    """
+    try:
+        history = get_user_mood_history(user_id, year, db)
+        return history
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
