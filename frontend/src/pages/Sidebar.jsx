@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import { Clock, CalendarDays, ListTodo, Clipboard, ChevronRight, ChevronLeft, LogOut } from 'lucide-react';
 
 export default function Sidebar( {children}) {
