@@ -1,0 +1,105 @@
+h1 {
+    text-align:left;
+    /* justify-content: left; */
+    font-family: 'Times New Roman', Times, serif;
+    color: white;
+    font-size: 2.5rem;
+    font-weight: bold;
+    /* margin-left: -100px; */
+    padding-bottom: 10px;
+    /* padding-left: 20px; */
+}
+
+
+.container{
+    display: flex ;
+    flex-direction: column;
+    gap: 4px;
+    padding: 10px;
+    max-width: fit-content;
+    margin: 0 auto;
+    align-items: flex-end;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.task{
+    display: flex;
+    gap: 4px;
+}
+
+.checkbox-style{
+    width: 14px;
+    margin-top: 5px;
+    accent-color: #ecc3c3;
+    background-color: white;
+}
+
+.input{
+    margin-left: 5px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1.5px solid black;
+    /* border-radius: 3px; */
+    color: black;
+    font-size: 1rem;
+    text-align:left;
+    text-indent: 2%;
+    outline: none;
+
+}
+
+.dropdown{
+    /* background-color: transparent; */
+    background-color: #f586869c;
+    color:black;
+    font-weight: bold;
+    outline: none;
+    border-radius: 4px;
+    padding: 0.25rem 0.5rem;
+}
+
+.high{
+    color:rgb(162, 6, 6);
+    font-weight: bold;
+}
+
+.medium{
+    color:rgb(172, 80, 5);
+    font-weight: bold;
+}
+
+.low{
+    color:rgb(6, 104, 6);
+    font-weight: bold;
+}
+
+.time{
+    background-color: #f586869c;
+    color:black;
+    /* font-weight: bold; */
+    outline: none;
+    border-radius: 4px;
+    padding: 0.25rem 0.5rem;
+}
+
+.time::placeholder{
+    color:rgba(0, 0, 0, 0.342);
+    font-weight: lighter;
+}
+
+.add-task{
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #db2d2df1;
+    color: black;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+    outline: none;
+}
+
+.add-task:hover{
+    background-color: #dc4a4af1;
+    border-color:#dc4a4af1 ;
+}
