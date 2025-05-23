@@ -1,0 +1,93 @@
+.title{
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    color: white;
+}
+
+h2 {
+    text-align: center;
+    color: #ff4d6d;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.login-container {
+    /* max-width: 400px; */
+    /* margin: 100px auto; */
+    margin: 0px auto;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    background: white;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+
+.form-group label {
+    margin-bottom: 1rem;
+    font-weight: bold;
+    color: #ff4d6d;
+    margin-right: 2rem;
+    width: 30%;
+}
+
+.form-group input {
+    padding: 0.5rem;
+    /* margin-top: 0.3rem; */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    /* margin-left: 2rem; */
+    background-color: #fff;
+    color:black;
+    /* justify-content: right; */
+    width: 90%;
+}
+
+.login-form button {
+    margin-top: 1rem;
+    padding: 0.7rem;
+    background: #ff4d6d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.login-form button:hover {
+    background: #e03e5d;
+}
+
+p{
+    text-align: center;
+    color: #ff4d6d;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.signup-link {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.signup-link a {
+  color: #ff4d6d;
+  text-decoration: underline;
+}
+
+.signup-link a:hover {
+    color: #e03e5d;
+    text-decoration: underline;
+}
