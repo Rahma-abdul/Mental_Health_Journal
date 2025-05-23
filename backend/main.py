@@ -19,7 +19,7 @@ from Services.todo import create_multiple_todos
 from typing import List, Optional,Dict
 
 
-# Base.metadata.drop_all(bind=engine)  # Drops all tables
+#Base.metadata.drop_all(bind=engine)  # Drops all tables
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(

@@ -1,114 +1,100 @@
-import { useState } from "react";  
+import { useState, useEffect } from "react";  
 import '../styles/History.css'; 
-import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import Sidebar from "./Sidebar";
-import happy from '../assets/happy.png'
-import sad from '../assets/sad.png'
-import neutral from '../assets/neutral.png'
-import angry from '../assets/angry.png'
-import emotional from '../assets/emotional.png'
-import playlist from '../assets/music.png'
 
+import happy from '../assets/happy.png';
+import sad from '../assets/sad.png';
+import neutral from '../assets/neutral.png';
+import angry from '../assets/angry.png';
+import emotional from '../assets/emotional.png';
 
 function History() {
-   const example = [
-    {
-        mood: 'happy',
-        date: '2023-10-02',
-        title: 'Park Day' , 
-        playlist: "happy" ,
-        details: "Hi so i went to the park today and i was a cute little puppy and i played with it all day"
-    }, 
-    {
-        mood: 'sad',
-        date: '2023-10-01',
-        title: 'Results Day' ,
-        playlist: "sad",
-        details: "Hello :( My results came today , i didn't do well , i'm so upset"
-    }, 
-    {
-        mood: 'neutral',
-        date: '2023-10-03',
-        title: 'Regular Day',
-        playlist: "neutral",
-        details: "Such a mehhh dayyy nothing much happened same boring day again i guess"
-    }
-   ];
-
-   const formatDate = (dataStr) => {
-    const date = new Date(dataStr);
-    return `${date.toDateString()}` ;
-   };
-
-   
-    const getEmojiIcon = (mood) => {
-    switch (mood.toLowerCase()) {
-        case 'happy':
-        return happy;
-        case 'sad':
-        return sad;
-        case 'neutral':
-        return neutral;
-        case 'angry':
-        return angry;
-        case 'emotional':
-        return emotional;
-        default:
-        return null;
-    }
-    };
-
+    const [entries, setEntries] = useState([]);
     const [expandedCard, setExpandedCard] = useState(null);
 
-    const toggleCard = (date) => {
-        setExpandedCard(prev => (prev === date ? null : date));
+    const moodMap = {
+        1: "happy",
+        2: "sad",
+        3: "neutral",
+        4: "emotional",
+        5: "angry"
     };
 
+    useEffect(() => {
+        const userId = localStorage.getItem("user_id");
+        axios.get(`http://localhost:8000/users/${userId}/getentries`)
+            .then(response => {
+                const formatted = response.data.map(entry => ({
+                    id: entry.id,
+                    date: entry.entry_date,
+                    mood: moodMap[entry.mood_id] || "neutral",
+                    title: entry.title || "(No Title)",
+                    details: entry.notes
+                }));
+                setEntries(formatted);
+            })
+            .catch(error => {
+                console.error("Failed to fetch entries:", error);
+            });
+    }, []);
 
-    const sortedEntries = [...example].sort(
+    const formatDate = (dataStr) => {
+        const date = new Date(dataStr);
+        return `${date.toDateString()}`;
+    };
+
+    const getEmojiIcon = (mood) => {
+        switch (mood.toLowerCase()) {
+            case 'happy':
+                return happy;
+            case 'sad':
+                return sad;
+            case 'neutral':
+                return neutral;
+            case 'angry':
+                return angry;
+            case 'emotional':
+                return emotional;
+            default:
+                return null;
+        }
+    };
+
+    const toggleCard = (id) => {
+        setExpandedCard(prev => (prev === id ? null : id));
+    };
+
+    const sortedEntries = [...entries].sort(
         (a, b) => new Date(b.date) - new Date(a.date)
     );
 
     return (
-    <Sidebar>
-        <h1>Previous Entries</h1>
-        <div className="content">
-            
-            {/* Placeholder lel backend */}
-            {sortedEntries.map((entry) => (
-                <div key={entry.date} className= 'card'  onClick={() => toggleCard(entry.date)}>
-                    <div className="header"  >
-                        <span className= 'date'>{formatDate(entry.date)}</span>
-                        <span className= 'title'>{entry.title}</span>
-                        <img
-                        src = {getEmojiIcon(entry.mood)}
-                        alt = {entry.mood}
-                        className = "mood"
-                        />
-                        <div className='playlist'>
-                            <div className="playlist-name">{entry.playlist}</div>
+        <Sidebar>
+            <h1>Previous Entries</h1>
+            <div className="content">
+                {sortedEntries.map((entry) => (
+                    <div key={entry.id} className='card' onClick={() => toggleCard(entry.id)}>
+                        <div className="header">
+                            <span className='date'>{formatDate(entry.date)}</span>
+                            <span className='title'>{entry.title}</span>
                             <img
-                            src = {playlist}
-                            alt = {"music"}
-                            className = "music-player"
-                        />
+                                src={getEmojiIcon(entry.mood)}
+                                alt={entry.mood}
+                                className="mood"
+                            />
                         </div>
+                        {expandedCard === entry.id && (
+                            <div className="details">
+                                {entry.details}
+                            </div>
+                        )}
                     </div>
-                    {expandedCard === entry.date && (
-                    <div className="details">
-                    {entry.details}
-                    </div>
-                    )}
-                </div>
-
-            ))}
-        </div>
-    </Sidebar>
-   );
+                ))}
+            </div>
+        </Sidebar>
+    );
 }
+
 export default History;
-
-
-
-
 
