@@ -10,18 +10,7 @@ function Signup() {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     setError(null);
-
-    //     // Perform signup logic here
-    //     // Backend API call 
-    //     console.log("Signing up....");
-    //     navigate("/history");
-
-    // };
-
-       const handleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
 

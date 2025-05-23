@@ -1,64 +1,183 @@
-import React from 'react';
+// import React from 'react';
+// import Sidebar from './Sidebar';
+// import '../styles/Calendar.css' ;
+// import { Expand } from 'lucide-react';
+
+// function Calendar() {
+    
+//     const rows = 12;
+//     const cols  = 31;
+//     const months = [
+//         'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+//         'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+//     ]
+
+
+//     const example = [
+//         { date: '2025-01-05', color: 'green' },
+//         { date: '2025-02-14', color: 'blue' },
+//         { date: '2025-03-22', color: 'red' },
+//         { date: '2025-03-05', color: 'black' },
+//     ]
+
+//     const colorMap = {}
+//     example.forEach(
+//         entry => {
+//             const date = new Date(entry.date);
+//             const month = date.getMonth();
+//             const day = date.getDate();
+//             colorMap[`${month}-${day}`] = entry.color;
+//         }
+//     );
+
+//     const days = Array.from({ length: 31 }, (_, i) => i + 1);
+
+//     return (
+//        <Sidebar>
+//             <h1>Yearly Mood Tracker</h1>
+
+//             <div className='table'>
+//                 <div className='header'>
+//                     <div className="space"></div>  
+//                     {  
+//                         days.map(day => (
+//                             <div key={day} className='days'>{day}</div>
+//                         ))
+//                     }
+//                 </div>
+    
+//                 {months.map((month,rowIndex) => (
+//                     <div className='grid' key={rowIndex}>
+//                         <div className='label'>{month}</div>
+//                         {days.map((day2,colIndex) => (
+//                                 // const color = colorMap[`${rowIndex}-${day2}`];
+//                                 <div className='cell' key={colIndex} style={{backgroundColor:  colorMap[`${rowIndex}-${day2}`]}}></div>
+//                         )
+//                         )}
+//                     </div>
+//                 ))}
+//             </div>
+//        </Sidebar>
+//       );
+// }
+
+import React, { useState, useEffect } from 'react';
 import Sidebar from './Sidebar';
-import '../styles/Calendar.css' ;
-import { Expand } from 'lucide-react';
+import '../styles/Calendar.css';
+import { useNavigate } from "react-router-dom";
 
 function Calendar() {
-    
-    const rows = 12;
-    const cols  = 31;
-    const months = [
-        'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-    ]
+    const [moodHistory, setMoodHistory] = useState({});
+    const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+    const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
+    const userId = localStorage.getItem("user_id");
+    const token = localStorage.getItem("token");
 
-    const example = [
-        { date: '2025-01-05', color: 'green' },
-        { date: '2025-02-14', color: 'blue' },
-        { date: '2025-03-22', color: 'red' },
-        { date: '2025-03-05', color: 'black' },
-    ]
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const daysInMonth = (year, month) => new Date(year, month + 1, 0).getDate();
 
-    const colorMap = {}
-    example.forEach(
-        entry => {
-            const date = new Date(entry.date);
-            const month = date.getMonth();
-            const day = date.getDate();
-            colorMap[`${month}-${day}`] = entry.color;
-        }
-    );
+    useEffect(() => {
+        const fetchMoodHistory = async () => {
+            if (!userId || !token) {
+                setError("Please log in to view your calendar.");
+                navigate('/login');
+                return;
+            }
 
-    const days = Array.from({ length: 31 }, (_, i) => i + 1);
+            try {
+                const response = await fetch(`http://localhost:8000/history/${userId}/${selectedYear}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        setError("Unauthorized. Please log in again.");
+                        navigate('/login');
+                    } else {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return;
+                }
+
+                const data = await response.json();
+                const newColorMap = {};
+
+                for (const monthKey in data) {
+                    data[monthKey].forEach(entry => {
+                        const date = new Date(entry.date);
+                        const month = date.getMonth();
+                        const day = date.getDate();
+                        const rawColor = entry.color?.trim().toLowerCase();
+                        const isValidColor = /^#[0-9a-f]{6}$/.test(rawColor) && rawColor !== '#ffffff';
+                        const key = `${month}-${day}`;
+                        newColorMap[key] = isValidColor ? rawColor : 'transparent';
+                    });
+                }
+
+                setMoodHistory(newColorMap);
+                setError(null);
+            } catch (error) {
+                if (!error.message.includes("Unauthorized")) {
+                    setError("Could not fetch mood history. Please try again later.");
+                }
+            }
+        };
+
+        fetchMoodHistory();
+    }, [userId, selectedYear, token, navigate]);
+
+    const handleYearChange = (event) => {
+        setSelectedYear(parseInt(event.target.value));
+    };
 
     return (
-       <Sidebar>
+        <Sidebar>
             <h1>Yearly Mood Tracker</h1>
 
-            <div className='table'>
-                <div className='header'>
-                    <div className="space"></div>  
-                    {  
-                        days.map(day => (
-                            <div key={day} className='days'>{day}</div>
-                        ))
-                    }
-                </div>
-    
-                {months.map((month,rowIndex) => (
-                    <div className='grid' key={rowIndex}>
-                        <div className='label'>{month}</div>
-                        {days.map((day2,colIndex) => (
-                                // const color = colorMap[`${rowIndex}-${day2}`];
-                                <div className='cell' key={colIndex} style={{backgroundColor:  colorMap[`${rowIndex}-${day2}`]}}></div>
-                        )
-                        )}
-                    </div>
-                ))}
+            <div className="year-selector">
+                <label htmlFor="year">Select Year: </label>
+                <select id="year" value={selectedYear} onChange={handleYearChange}>
+                    {Array.from({ length: 5 }, (_, i) => new Date().getFullYear() - 2 + i).map(year => (
+                        <option key={year} value={year}>{year}</option>
+                    ))}
+                </select>
             </div>
-       </Sidebar>
-      );
+
+            {error && <p className="error-message">{error}</p>}
+
+            {!error && (
+                <div className="table">
+                    <div className="header">
+                        <div className="space"></div>
+                        {Array.from({ length: 31 }, (_, i) => (
+                            <div key={i + 1} className="days">{i + 1}</div>
+                        ))}
+                    </div>
+
+                    {months.map((month, rowIndex) => (
+                        <div className="grid" key={rowIndex}>
+                            <div className="label">{month}</div>
+                            {Array.from({ length: daysInMonth(selectedYear, rowIndex) }, (_, colIndex) => {
+                                const day = colIndex + 1;
+                                const key = `${rowIndex}-${day}`;
+                                const color = (moodHistory[key] || '').toLowerCase();
+                                const bgColor = /^#[0-9a-f]{6}$/.test(color) && color !== '#ffffff' ? color : 'transparent';
+
+                                return (
+                                    <div className="cell" key={day} style={{ backgroundColor: bgColor }}></div>
+                                );
+                            })}
+                            {Array.from({ length: 31 - daysInMonth(selectedYear, rowIndex) }, (_, i) => (
+                                <div key={`empty-${rowIndex}-${i}`} className="cell empty-cell"></div>
+                            ))}
+                        </div>
+                    ))}
+                </div>
+            )}
+        </Sidebar>
+    );
 }
 
 export default Calendar;
