@@ -11,6 +11,7 @@ class Entry(Base):
     mood_id = Column(Integer, ForeignKey("moods.id"))
     entry_date = Column(Date, nullable=False)
     notes = Column(Text)
+    title = Column(Text)
     # Relationships will be setup in relationships.py
     user = None
     mood = None

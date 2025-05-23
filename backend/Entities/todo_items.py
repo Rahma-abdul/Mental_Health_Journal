@@ -12,7 +12,7 @@ class TodoItem(Base):
     description = Column(Text, nullable=False)
     is_completed = Column(Boolean, default=False)
     priority = Column(Integer, default=1)  
-    deadline = Column(DateTime)
+    deadline = Column(Text, nullable=False)
 
 
     # Relationships will be setup in relationships.py

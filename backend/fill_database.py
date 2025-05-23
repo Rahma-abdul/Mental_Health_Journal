@@ -21,14 +21,14 @@ def add_moods(db: Session):
     moods_data = [
         {"name": "Happy", "color_code": "#FFD700"},      # Gold
         {"name": "Sad", "color_code": "#4169E1"},        # Royal Blue
-        {"name": "Anxious", "color_code": "#FF6347"},    # Tomato
-        {"name": "Calm", "color_code": "#98FB98"},       # Pale Green
-        {"name": "Angry", "color_code": "#DC143C"},      # Crimson
-        {"name": "Excited", "color_code": "#FF69B4"},    # Hot Pink
-        {"name": "Tired", "color_code": "#696969"},      # Dim Gray
-        {"name": "Grateful", "color_code": "#32CD32"},   # Lime Green
-        {"name": "Lonely", "color_code": "#9370DB"},     # Medium Purple
-        {"name": "Content", "color_code": "#87CEEB"}     # Sky Blue
+        {"name": "Neutral", "color_code": "#FF6347"},    # Tomato
+        {"name": "Emotional", "color_code": "#98FB98"},       # Pale Green
+        {"name": "Angry", "color_code": "#DC143C"}    # Crimson
+        # {"name": "Excited", "color_code": "#FF69B4"},    # Hot Pink
+        # {"name": "Tired", "color_code": "#696969"},      # Dim Gray
+        # {"name": "Grateful", "color_code": "#32CD32"},   # Lime Green
+        # {"name": "Lonely", "color_code": "#9370DB"},     # Medium Purple
+        # {"name": "Content", "color_code": "#87CEEB"}     # Sky Blue
     ]
     
     print("Adding moods...")
@@ -97,22 +97,22 @@ def add_sample_entries(db: Session):
         {
             "entry_date": date.today() - timedelta(days=4),
             "notes": "Feeling a bit overwhelmed with work deadlines approaching.",
-            "mood_id": next((m.id for m in moods if m.name == "Anxious"), moods[0].id)
+            "mood_id": next((m.id for m in moods if m.name == "Sad"), moods[0].id)
         },
         {
             "entry_date": date.today() - timedelta(days=3),
             "notes": "Practiced meditation for 20 minutes. Feeling much more centered.",
-            "mood_id": next((m.id for m in moods if m.name == "Calm"), moods[0].id)
+            "mood_id": next((m.id for m in moods if m.name == "Neutral"), moods[0].id)
         },
         {
             "entry_date": date.today() - timedelta(days=2),
             "notes": "Completed a challenging project at work. Very satisfied with the results!",
-            "mood_id": next((m.id for m in moods if m.name == "Excited"), moods[0].id)
+            "mood_id": next((m.id for m in moods if m.name == "Angry"), moods[0].id)
         },
         {
             "entry_date": date.today() - timedelta(days=1),
             "notes": "Quiet evening reading a good book. Simple pleasures.",
-            "mood_id": next((m.id for m in moods if m.name == "Content"), moods[0].id)
+            "mood_id": next((m.id for m in moods if m.name == "Emotional"), moods[0].id)
         }
     ]
     

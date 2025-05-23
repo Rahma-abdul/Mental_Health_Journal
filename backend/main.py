@@ -9,12 +9,17 @@ from config import get_db, SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from datetime import timedelta
 from datetime import date
-from Services.entry import create_entry,get_entries_by_date,get_entries_by_date_range
+from Services.entry import create_entry,get_entries,get_entries_by_date_range
 from Services.mood import get_user_mood_history
 from Services.song_recommendation import SongRecommendationService
+from Entities.todo_items import TodoItem
+from Services.todo import create_todo
+from Services.todo import create_multiple_todos
 
 from typing import List, Optional,Dict
 
+
+# Base.metadata.drop_all(bind=engine)  # Drops all tables
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
@@ -42,13 +47,16 @@ class UserCreate(BaseModel):
 class EntryCreate(BaseModel):
     entry_date: date
     notes: Optional[str] = None
+    title: Optional[str] = None
     mood_id: Optional[int] = None
+
 
 class EntryResponse(BaseModel):
     id: int
     user_id: int
     entry_date: date
     notes: Optional[str]
+    title: Optional[str]
     mood_id: Optional[int]
 
     class Config:
@@ -62,7 +70,40 @@ class MoodHistoryResponse(BaseModel):
     class Config:
         from_attributes = True     
 
+# Request models
+class TodoCreate(BaseModel):
+    description: str
+    priority: int = 1
+    deadline: str
+    isCompleted:bool
+    class Config:
+        from_attributes = True    
 
+class MultipleTodosCreate(BaseModel):
+    todos: List[TodoCreate]
+    entry_id: int = None
+from pydantic import BaseModel
+from datetime import datetime
+from typing import Optional
+
+# # Request model (what the API receives)
+# class TodoCreate(BaseModel):
+#     description: str
+#     priority: int = 1
+#     deadline: Optional[str] = None  # Changed to Optional since it might not always be provided
+
+# Response model (what the API returns)
+class TodoItemResponse(BaseModel):
+    id: int
+    user_id: int
+    description: str
+    priority: int
+    deadline: Optional[datetime]  # Will be converted from string
+    is_completed: bool
+    # created_at: datetime
+
+    class Config:
+        from_attributes = True  # Allows ORM model -> Pydantic model conversion
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 @app.post("/token")
 def login_for_access_token(
@@ -109,22 +150,22 @@ def create_entry_endpoint(
             user_id=user_id,
             entry_date=entry_data.entry_date,
             notes=entry_data.notes,
-            mood_id=entry_data.mood_id
+            mood_id=entry_data.mood_id,
+            title=entry_data.title
         )
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@app.get("/users/{user_id}/entries/by-date/", response_model=List[EntryResponse])
+@app.get("/users/{user_id}/getentries", response_model=List[EntryResponse])
 def get_entries_by_date_endpoint(
     user_id: int,
-    target_date: date,
+   
     db: Session = Depends(get_db)
 ):
  
-    return get_entries_by_date(
+    return get_entries(
         db=db,
         user_id=user_id,
-        target_date=target_date
     )
 
 @app.get("/users/{user_id}/entries/by-date-range/", response_model=List[EntryResponse])
@@ -236,4 +277,50 @@ def get_song_recommendation_by_mood(
             status_code=500,
             detail=f"Error generating song recommendation: {str(e)}"
         )
+# @app.post("/todoItem", response_model=TodoItemResponse)
+# def create_todo(
+#     todo: TodoCreate,
+#     user_id: int, 
+#     entry_id:int,
+#     db: Session = Depends(get_db)
+# ):
+#     return create_todo(
+#         db=db,
+#         user_id=user_id,
+#         entry_id=entry_id,
+#         description=todo.description,
+#         priority=todo.priority,
+#         deadline=todo.deadline,   
+#     )
+@app.post("/todoItem/{user_id}/{entry_id}", response_model=TodoItemResponse)
+def create_todo_endpoint(
+    todo: TodoCreate,
+    user_id: int,
+    entry_id: int,
+    db: Session = Depends(get_db)
+):
+ 
+        # Convert deadline string to datetime if provided
 
+               
+        return create_todo(
+            db=db,
+            user_id=user_id,
+            entry_id=entry_id,
+            description=todo.description,
+            priority=todo.priority,
+            deadline=todo.deadline,
+            is_completed=todo.isCompleted
+        )
+@app.post("/multipleTodos", response_model=List[TodoItemResponse])
+def create_multiple_todos(
+    todos_data: MultipleTodosCreate,
+    user_id: int,  # In real app, get from auth token
+    db: Session = Depends(get_db)
+):
+    return create_multiple_todos(
+        db=db,
+        user_id=user_id,
+        todos_data=todos_data.todos,
+        entry_id=todos_data.entry_id
+    )

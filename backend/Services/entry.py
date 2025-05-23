@@ -10,7 +10,8 @@ def create_entry(
     user_id: int,
     entry_date: date,
     notes: Optional[str] = None,
-    mood_id: Optional[int] = None
+    mood_id: Optional[int] = None,
+    title: Optional[str] = None
 ) -> Entry:
     """
     Create a new journal entry for a user.
@@ -31,7 +32,8 @@ def create_entry(
         user_id=user_id,
         entry_date=entry_date,
         notes=notes,
-        mood_id=mood_id
+        mood_id=mood_id,
+        title=title
     )
     
     db.add(new_entry)
@@ -40,14 +42,14 @@ def create_entry(
     
     return new_entry
 
-def get_entries_by_date(db: Session, user_id: int, target_date: date) -> List[Entry]:
+def get_entries(db: Session, user_id: int) -> List[Entry]:
     """
-    Get all journal entries for a specific date.
+    Get all journal entries for a user.
     """
     return db.query(Entry)\
         .filter(
             Entry.user_id == user_id,
-            Entry.entry_date == target_date
+            # Entry.entry_date == target_date
         )\
         .all() 
 
