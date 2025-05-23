@@ -236,3 +236,4 @@ def get_song_recommendation_by_mood(
             status_code=500,
             detail=f"Error generating song recommendation: {str(e)}"
         )
+

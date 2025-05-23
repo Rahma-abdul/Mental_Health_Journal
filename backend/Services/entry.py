@@ -112,3 +112,4 @@ def delete_entry(db: Session, entry_id: int, user_id: int) -> bool:
     db.delete(entry)
     db.commit()
     return True
+
