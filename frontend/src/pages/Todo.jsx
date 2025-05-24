@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Sidebar from './Sidebar';
 import '../styles/Todo.css';
 
+
 function Todo() {
   const [tasks, setTasks] = useState([
     {
@@ -76,6 +77,16 @@ function Todo() {
       }
 
       console.log('Tasks submitted successfully!');
+      setTasks([
+      {
+        completed: false,
+        text: '',
+        priority: '',
+        duration: '',
+        id: Date.now()
+      }
+    ]);
+
     } catch (error) {
       console.error('Failed to submit tasks:', error);
     }
@@ -122,9 +133,7 @@ function Todo() {
         <button className="add-task" onClick={handleNewTasks}>
           + New Task
         </button>
-        <button className="add-task" onClick={handleSubmit}>
-          Submit Tasks
-        </button>
+        <button className="add-task" onClick={handleSubmit}>End Day</button>
       </div>
     </Sidebar>
   );
