@@ -132,22 +132,22 @@ h3{
     flex: 3;
     display: flex;
     flex-direction: column;
-    padding: 8px;
+    padding: 2px;
     margin: 0 auto;
     background-color: #f58686c5;
     border-radius: 20px;
-    width: 220px;
+    width: 200px;
     height: 200px;
-    margin-bottom: 10px;
+    /* margin-bottom: 2px; */
     /* margin-top: 20px; */
 }
 
 .daily-moods{
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 15px;
     justify-content:center;
-    padding: 10px;
+    /* padding: 2px; */
     /* padding-left: 20px; */
 
 }
@@ -166,7 +166,7 @@ h3{
 }
 
 .daily-music{
-    padding: 8px;
+    /* padding: 8px; */
     border-radius: 20px;
     background-color: #f58686c5;
     text-align: center;
@@ -175,8 +175,8 @@ h3{
 
 .daily-playlist{
     /* width: 100%; */
-    width: 90px;
-    height: 90px;
+    width: 60px;
+    height: 60px;
 }
 
 .daily-details{
@@ -188,4 +188,21 @@ h3{
 
 p{
     color: white;
+}
+
+.save-entry{
+    /* margin-top: 1rem; */
+    padding: 0.5rem 1rem;
+    background-color: #db2d2d74;
+    color: white;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+    outline: none;
+}
+
+.save-entry:hover{
+    background-color: #cd3c3cf1;
+    border-color:#cd3c3cf1 ;
 }

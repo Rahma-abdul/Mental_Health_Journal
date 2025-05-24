@@ -97,3 +97,7 @@ p{
     color: #e03e5d;
     text-decoration: underline;
 }
+
+.error-message{
+    color:#ff4d6d;
+}

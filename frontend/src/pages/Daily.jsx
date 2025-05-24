@@ -17,6 +17,10 @@ function Daily() {
         return today.toISOString().split('T')[0];
     });
 
+    const handleEntry = () =>{
+        // Backend
+    };
+
     return (
             <Sidebar>
                 <h1>Daily Entry</h1>
@@ -60,6 +64,7 @@ function Daily() {
                                 <p><strong>Artisit:</strong> Artist Name</p>
                             </div>
                         </div>
+                        <button className="save-entry" onClick={handleEntry}>Save Entry</button> 
                     </div>
 
                 </div>
