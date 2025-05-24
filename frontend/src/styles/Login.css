@@ -99,5 +99,6 @@ p{
 }
 
 .error-message{
+    padding-bottom: 15px;
     color:#ff4d6d;
 }

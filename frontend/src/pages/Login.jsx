@@ -43,7 +43,7 @@ function Login() {
 
             if (userId) {
                 localStorage.setItem("user_id", userId);
-                navigate("/history");
+                navigate("/Daily");
             } else {
                 console.warn("User ID claim not found in decoded token.");
                 setError("Login successful, but user ID not found in token. Please contact support.");
