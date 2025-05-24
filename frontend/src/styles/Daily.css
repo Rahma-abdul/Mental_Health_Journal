@@ -14,7 +14,7 @@ h3{
     text-align: center;
 }
 
-.container{
+.daily-container{
     /* display: flex;
     flex-direction: column; */
     display: grid;
@@ -28,7 +28,7 @@ h3{
     
 }
 
-.entry{
+.daily-entry{
     flex: 3;
     display: flex;
     flex-direction: column;
@@ -43,14 +43,14 @@ h3{
 
 }
 
-.header{
+.daily-header{
     display: flex;
     justify-content: space-between;
     gap: 20px;
     width: 500px;
 }
 
-.title{
+.daily-title{
     flex: 1;
     /* padding: 10px; */
     margin-left: 5px;
@@ -64,16 +64,16 @@ h3{
     outline: none;
 }
 
-.title::placeholder{
+.daily-title::placeholder{
     color: rgba(255, 255, 255, 0.669);
 }
-.date{
+.daily-date{
     background-color:  rgba(141, 78, 78, 0.669);
     border-radius: 5px;
     padding: 2px;
 }
 
-.body{
+.daily-body{
     width: 100%;
     padding: 5px;
     font-size: 16px;
@@ -88,7 +88,7 @@ h3{
   );
 
 }
-.body::placeholder{
+.daily-body::placeholder{
     color: rgba(255, 255, 255, 0.669);
 }
 
@@ -125,7 +125,7 @@ h3{
     
 }
 
-.selectmood{
+.daily-selectmood{
     flex: 3;
     display: flex;
     flex-direction: column;
@@ -139,7 +139,7 @@ h3{
     /* margin-top: 20px; */
 }
 
-.moods{
+.daily-moods{
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
@@ -149,7 +149,7 @@ h3{
 
 }
 
-.icon{
+.daily-icon{
     width: 40px;
     height: 40px;
     cursor: pointer;
@@ -157,12 +157,12 @@ h3{
     transition: transform 0.2s, opacity 0.2s;
 }
 
-.icon.selected{
+.daily-icon.selected{
     opacity: 1;
     transform: scale(1.1);
 }
 
-.music{
+.daily-music{
     padding: 8px;
     border-radius: 20px;
     background-color: #f58686c5;
@@ -170,13 +170,13 @@ h3{
     justify-items: center;
 }
 
-.playlist{
+.daily-playlist{
     /* width: 100%; */
     width: 90px;
     height: 90px;
 }
 
-.details{
+.daily-details{
     font-size: 16px;
     margin-bottom: 10px;
     font-style: normal;

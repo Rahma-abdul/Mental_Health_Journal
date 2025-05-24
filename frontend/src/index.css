@@ -37,6 +37,7 @@ body {
     background: linear-gradient(to bottom, #ff4d6d, #ff9a44);
     background-attachment: fixed;
     font-family: 'Times New Roman', Times, serif;
+    border: none;
 }
 
 h1 {
