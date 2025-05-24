@@ -17,26 +17,10 @@ function Calendar() {
 
     useEffect(() => {
         const fetchMoodHistory = async () => {
-            if (!userId || !token) {
-                setError("Please log in to view your calendar.");
-                navigate('/login');
-                return;
-            }
-
             try {
                 const response = await fetch(`http://localhost:8000/history/${userId}/${selectedYear}`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
-
-                if (!response.ok) {
-                    if (response.status === 401) {
-                        setError("Unauthorized. Please log in again.");
-                        navigate('/login');
-                    } else {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    return;
-                }
 
                 const data = await response.json();
                 const newColorMap = {};
