@@ -59,7 +59,7 @@ function Calendar() {
 
             <div className="year-selector">
                 <label htmlFor="year">Select Year: </label>
-                <select id="year" value={selectedYear} onChange={handleYearChange}>
+                <select id="year" value={selectedYear} onChange={handleYearChange} className='year-dropdown'>
                     {Array.from({ length: 5 }, (_, i) => new Date().getFullYear() - 2 + i).map(year => (
                         <option key={year} value={year}>{year}</option>
                     ))}
