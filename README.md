@@ -5,29 +5,30 @@ A full-stack web application that helps users track their emotional well-being t
 The system combines self-reflection tools + productivity tracking + AI personalization to create a structured mental wellness experience.
 
 ## ✨ Features
-📝 Daily journal entries with mood tagging
-📊 Mood tracking with visual history and patterns
-✅ Todo list linked to daily emotional states
-🎯 Monthly mood insights and tracking
-🎵 AI-powered Spotify song recommendations (Gemini API)
-🔐 Secure authentication (JWT-based)
-📱 Responsive UI for desktop and mobile
-🧱 Tech Stack
+- 📝 Daily journal entries with mood tagging
+- 📊 Mood tracking with visual history and patterns
+- ✅ Todo list linked to daily emotional states
+- 🎯 Monthly mood insights and tracking
+- 🎵 AI-powered Spotify song recommendations (Gemini API)
+- 🔐 Secure authentication (JWT-based)
+- 📱 Responsive UI for desktop and mobile
 
-## Frontend
+## 🧱 Tech Stack
+
+### Frontend
 - React
 - JavaScript (ES6+)
 - CSS3
 
-## Backend
+### Backend
 - FastAPI (Python)
 - SQLAlchemy ORM
 - JWT Authentication
 
-## Database
+### Database
 - PostgreSQL
 
-## 🤖 AI Feature
+### 🤖 AI Feature
 
 The system uses Google Gemini API to:
 - Analyze journal entries
